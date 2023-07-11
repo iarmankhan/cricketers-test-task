@@ -1,6 +1,11 @@
 "use client";
 
-import { ArrowLeftIcon } from "@radix-ui/react-icons";
+import {
+  ArrowLeftIcon,
+  CalendarIcon,
+  PersonIcon,
+  StarIcon,
+} from "@radix-ui/react-icons";
 import Link from "next/link";
 import { useCricketer } from "@/lib/hooks/use-cricketer";
 import { NotFound } from "next/dist/client/components/error";
@@ -43,19 +48,35 @@ export default function CricketerDetailsPage({
       </div>
 
       <div className="my-6">
-        <h1 className="font-bold text-2xl">{cricketer?.name}</h1>
+        <h1 className="font-bold text-2xl">
+          {cricketer?.name} #{cricketer?.rank}
+        </h1>
 
-        <p className="mt-2 ">{cricketer?.description}</p>
+        <p className="mt-4 text-md">{cricketer?.description}</p>
 
-        <div>
-          <p className="mt-2 text-sm">Type: {type}</p>
-          <p className="mt-2 text-sm">Points: {cricketer?.points}</p>
-          <p className="mt-2 text-sm">Rank: {cricketer?.rank}</p>
-          <p className="mt-2 text-sm">Age: {age}</p>
+        <div className="flex flex-col space-y-2 my-4">
+          {type && (
+            <div className="flex flex-row gap-2 items-center text-md">
+              <PersonIcon />
+              <span className="font-medium">Type:</span> {type}
+            </div>
+          )}
+          <div className="flex flex-row gap-2 items-center text-md">
+            <StarIcon />
+            <span className="font-medium">Points:</span> {cricketer?.points}
+          </div>
+
+          <div className="flex flex-row gap-2 items-center text-md">
+            <CalendarIcon />
+            <span className="font-medium">Age:</span> {age}
+          </div>
         </div>
       </div>
 
-      <SimilarCricketers id={id} />
+      <div className="mt-6">
+        <h4 className="font-bold text-xl mb-4">Similar Cricketers</h4>
+        <SimilarCricketers id={id} />
+      </div>
     </div>
   );
 }

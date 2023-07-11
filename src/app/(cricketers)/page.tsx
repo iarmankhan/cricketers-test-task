@@ -50,15 +50,19 @@ export default function CricketersListPage() {
         onSortByChange={setSortBy}
       />
 
-      {isLoading ? (
-        <CricketersLoadingList />
-      ) : !data?.players?.length ? (
-        <div className="h-[300px] flex items-center justify-center">
-          <p className="text-center text-2xl font-bold">No cricketers found</p>
-        </div>
-      ) : (
-        <CricketersList cricketers={cricketers} />
-      )}
+      <div className="my-6">
+        {isLoading ? (
+          <CricketersLoadingList />
+        ) : !data?.players?.length ? (
+          <div className="h-[300px] flex items-center justify-center">
+            <p className="text-center text-2xl font-bold">
+              No cricketers found
+            </p>
+          </div>
+        ) : (
+          <CricketersList cricketers={cricketers} />
+        )}
+      </div>
 
       <Pagination
         totalPages={totalPages}
