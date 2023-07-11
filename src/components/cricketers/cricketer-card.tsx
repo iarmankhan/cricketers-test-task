@@ -2,6 +2,7 @@ import { TPlayer } from "@/lib/get-players";
 import { Card, CardContent, CardHeader } from "@/components/ui";
 import { camelCaseToTitleCase, getAgeFromDOB } from "@/lib/utils";
 import { useMemo } from "react";
+import Link from "next/link";
 
 interface CricketerCardProps {
   cricketer: TPlayer;
@@ -12,13 +13,22 @@ export default function CricketerCard({ cricketer }: CricketerCardProps) {
     return getAgeFromDOB(new Date(cricketer.dob!));
   }, [cricketer.dob]);
 
+  const type = useMemo(() => {
+    if (!cricketer.type) return "";
+    return camelCaseToTitleCase(cricketer.type);
+  }, [cricketer.type]);
+
   return (
-    <Card className="cursor-pointer">
+    <Card>
       <CardHeader className="">
-        <h3 className="text-lg font-bold">{cricketer.name}</h3>
+        <Link href={`/${cricketer.id}`}>
+          <h3 className="text-lg font-bold hover:underline">
+            {cricketer.name}
+          </h3>
+        </Link>
       </CardHeader>
       <CardContent>
-        <p className="text-sm">Type: {camelCaseToTitleCase(cricketer.type!)}</p>
+        {type && <p className="text-sm">Type: {type}</p>}
         <p className="text-sm">Points: {cricketer.points}</p>
         <p className="text-sm">Rank: {cricketer.rank}</p>
         <p className="text-sm">Age: {age}</p>

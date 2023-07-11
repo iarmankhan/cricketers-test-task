@@ -50,7 +50,7 @@ export default function CricketersListFilters({
 
   return (
     <div className="flex flex-row items-center justify-between">
-      <div className="">
+      <div className="w-[300px]">
         <Input
           type="search"
           placeholder="Search by name..."

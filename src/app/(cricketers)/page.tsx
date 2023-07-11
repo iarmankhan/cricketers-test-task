@@ -5,6 +5,9 @@ import CricketersList from "@/components/cricketers/cricketers-list";
 import { useCricketers } from "@/lib/hooks/use-cricketers";
 import { useMemo } from "react";
 import { useCricketersFilters } from "@/lib/hooks";
+import { CRICKETERS_LIMIT } from "@/lib/constants";
+import { CricketersLoadingList } from "@/components/cricketers/cricketers-loading-list";
+import { Pagination } from "@/components/ui";
 
 export default function CricketersListPage() {
   const {
@@ -17,6 +20,7 @@ export default function CricketersListPage() {
     sortBy,
     setSortBy,
   } = useCricketersFilters();
+
   const { refetch, isLoading, data } = useCricketers(
     search,
     filter,
@@ -28,6 +32,11 @@ export default function CricketersListPage() {
   const cricketers = useMemo(() => {
     if (!data) return [];
     return data.players || [];
+  }, [data]);
+
+  const totalPages = useMemo(() => {
+    if (!data) return 0;
+    return Math.ceil(data.total / CRICKETERS_LIMIT);
   }, [data]);
 
   return (
@@ -42,12 +51,20 @@ export default function CricketersListPage() {
       />
 
       {isLoading ? (
-        <div>Loading...</div>
+        <CricketersLoadingList />
       ) : !data?.players?.length ? (
-        <div>No cricketers matching your filters</div>
+        <div className="h-[300px] flex items-center justify-center">
+          <p className="text-center text-2xl font-bold">No cricketers found</p>
+        </div>
       ) : (
         <CricketersList cricketers={cricketers} />
       )}
+
+      <Pagination
+        totalPages={totalPages}
+        currentPage={page}
+        onChange={(newPage) => setPage(newPage)}
+      />
     </div>
   );
 }
