@@ -19,7 +19,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <QueryProvider>
-          <main className="container mx-auto py-4">{children}</main>
+          <main className="container mx-auto py-4 px-2 sm:px-8">
+            {children}
+          </main>
         </QueryProvider>
       </body>
     </html>

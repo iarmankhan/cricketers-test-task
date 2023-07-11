@@ -49,8 +49,8 @@ export default function CricketersListFilters({
   const isClient = useClient();
 
   return (
-    <div className="flex flex-row items-center justify-between">
-      <div className="w-[300px]">
+    <div className="flex flex-row items-center flex-wrap gap-2 justify-between">
+      <div className="w-full sm:w-[300px]">
         <Input
           type="search"
           placeholder="Search by name..."
@@ -59,50 +59,54 @@ export default function CricketersListFilters({
         />
       </div>
 
-      <div className="flex flex-row items-center gap-4">
+      <div className="flex flex-row items-center gap-2 w-full sm:w-auto">
         {isClient && (
-          <Select
-            value={sortBy}
-            onValueChange={(val) => {
-              onSortByChange(val as SortFields);
-            }}
-          >
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Sort By" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Sort By</SelectLabel>
-                <SelectItem value={SortFields.NAME}>Name</SelectItem>
-                <SelectItem value={SortFields.RANK}>Rank</SelectItem>
-                <SelectItem value={SortFields.DOB}>Age</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+          <div className="w-1/2">
+            <Select
+              value={sortBy}
+              onValueChange={(val) => {
+                onSortByChange(val as SortFields);
+              }}
+            >
+              <SelectTrigger className="w-full sm:w-[150px]">
+                <SelectValue placeholder="Sort By" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Sort By</SelectLabel>
+                  <SelectItem value={SortFields.NAME}>Name</SelectItem>
+                  <SelectItem value={SortFields.RANK}>Rank</SelectItem>
+                  <SelectItem value={SortFields.DOB}>Age</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
         )}
 
         {isClient && (
-          <Select
-            value={filter}
-            onValueChange={(val) => {
-              onFilterChange(val);
-            }}
-          >
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Select Type" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Types</SelectLabel>
-                <SelectItem value={""}>All</SelectItem>
-                {formattedTypes.map((type) => (
-                  <SelectItem key={type.value} value={type.value}>
-                    {type.label}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+          <div className="w-1/2">
+            <Select
+              value={filter}
+              onValueChange={(val) => {
+                onFilterChange(val);
+              }}
+            >
+              <SelectTrigger className="w-full sm:w-[150px]">
+                <SelectValue placeholder="Select Type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Types</SelectLabel>
+                  <SelectItem value={""}>All</SelectItem>
+                  {formattedTypes.map((type) => (
+                    <SelectItem key={type.value} value={type.value}>
+                      {type.label}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
         )}
       </div>
     </div>

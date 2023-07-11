@@ -53,11 +53,9 @@ export const getCricketers = async (
       });
     }
 
-    console.log({ paginatedPlayers });
-
     return {
       players: paginatedPlayers,
-      total: players.length,
+      total: filteredPlayers.length,
     };
   } catch (error) {
     return {

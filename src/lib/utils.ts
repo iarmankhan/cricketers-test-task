@@ -23,3 +23,11 @@ export function getAgeFromDOB(dob: Date) {
 
   return age;
 }
+
+export function formatDOB(dob: Date) {
+  return new Date(dob).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
