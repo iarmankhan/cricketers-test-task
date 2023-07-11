@@ -10,3 +10,16 @@ export function camelCaseToTitleCase(str: string) {
     .replace(/([A-Z])/g, " $1")
     .replace(/^./, (str) => str.toUpperCase());
 }
+
+export function getAgeFromDOB(dob: Date) {
+  const today = new Date();
+  const birthDate = new Date(dob);
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const m = today.getMonth().valueOf();
+
+  if (m < birthDate.getMonth().valueOf()) {
+    age--;
+  }
+
+  return age;
+}

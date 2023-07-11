@@ -1,22 +1,37 @@
-"use client"
+"use client";
 
 import CricketersListFilters from "@/components/cricketers/cricketers-list-filters";
 import CricketersList from "@/components/cricketers/cricketers-list";
-import {useCricketers} from "@/lib/hooks/use-cricketers";
-import {useMemo} from "react";
-import {useCricketersFilters} from "@/lib/hooks";
+import { useCricketers } from "@/lib/hooks/use-cricketers";
+import { useMemo } from "react";
+import { useCricketersFilters } from "@/lib/hooks";
 
 export default function CricketersListPage() {
-  const {search, setSearch, page, setPage, filter, setFilter, sortBy, setSortBy} = useCricketersFilters()
-  const {refetch, isLoading, data} = useCricketers(search, filter, page, 10, sortBy)
+  const {
+    search,
+    setSearch,
+    page,
+    setPage,
+    filter,
+    setFilter,
+    sortBy,
+    setSortBy,
+  } = useCricketersFilters();
+  const { refetch, isLoading, data } = useCricketers(
+    search,
+    filter,
+    page,
+    10,
+    sortBy,
+  );
 
   const cricketers = useMemo(() => {
-    if (!data) return []
-    return data.players || []
-  }, [data])
+    if (!data) return [];
+    return data.players || [];
+  }, [data]);
 
   return (
-    <div className='my-4'>
+    <div className="my-4">
       <CricketersListFilters
         search={search}
         onSearchChange={setSearch}
@@ -26,7 +41,13 @@ export default function CricketersListPage() {
         onSortByChange={setSortBy}
       />
 
-      <CricketersList cricketers={cricketers} />
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : !data?.players?.length ? (
+        <div>No cricketers matching your filters</div>
+      ) : (
+        <CricketersList cricketers={cricketers} />
+      )}
     </div>
-  )
+  );
 }

@@ -12,6 +12,7 @@ import {
 import { useCricketersTypes } from "@/lib/hooks/use-cricketers-types";
 import { useMemo } from "react";
 import { camelCaseToTitleCase } from "@/lib/utils";
+import { useClient } from "@/lib/hooks/use-client";
 
 interface CricketersListFiltersProps {
   search: string;
@@ -45,6 +46,8 @@ export default function CricketersListFilters({
       })) as { label: string; value: string }[];
   }, [types]);
 
+  const isClient = useClient();
+
   return (
     <div className="flex flex-row items-center justify-between">
       <div className="">
@@ -57,46 +60,50 @@ export default function CricketersListFilters({
       </div>
 
       <div className="flex flex-row items-center gap-4">
-        <Select
-          value={sortBy}
-          onValueChange={(val) => {
-            onSortByChange(val as SortFields);
-          }}
-        >
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Sort By" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Sort By</SelectLabel>
-              <SelectItem value={SortFields.NAME}>Name</SelectItem>
-              <SelectItem value={SortFields.RANK}>Rank</SelectItem>
-              <SelectItem value={SortFields.DOB}>Age</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+        {isClient && (
+          <Select
+            value={sortBy}
+            onValueChange={(val) => {
+              onSortByChange(val as SortFields);
+            }}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Sort By" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Sort By</SelectLabel>
+                <SelectItem value={SortFields.NAME}>Name</SelectItem>
+                <SelectItem value={SortFields.RANK}>Rank</SelectItem>
+                <SelectItem value={SortFields.DOB}>Age</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        )}
 
-        <Select
-          value={filter}
-          onValueChange={(val) => {
-            onFilterChange(val);
-          }}
-        >
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select Type" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Types</SelectLabel>
-              <SelectItem value={""}>All</SelectItem>
-              {formattedTypes.map((type) => (
-                <SelectItem key={type.value} value={type.value}>
-                  {type.label}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+        {isClient && (
+          <Select
+            value={filter}
+            onValueChange={(val) => {
+              onFilterChange(val);
+            }}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Select Type" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Types</SelectLabel>
+                <SelectItem value={""}>All</SelectItem>
+                {formattedTypes.map((type) => (
+                  <SelectItem key={type.value} value={type.value}>
+                    {type.label}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        )}
       </div>
     </div>
   );
