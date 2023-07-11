@@ -6,9 +6,13 @@ import Link from "next/link";
 
 interface CricketerCardProps {
   cricketer: TPlayer;
+  minimal?: boolean;
 }
 
-export default function CricketerCard({ cricketer }: CricketerCardProps) {
+export default function CricketerCard({
+  cricketer,
+  minimal,
+}: CricketerCardProps) {
   const age = useMemo(() => {
     return getAgeFromDOB(new Date(cricketer.dob!));
   }, [cricketer.dob]);
@@ -28,10 +32,10 @@ export default function CricketerCard({ cricketer }: CricketerCardProps) {
         </Link>
       </CardHeader>
       <CardContent>
-        {type && <p className="text-sm">Type: {type}</p>}
+        {type && !minimal && <p className="text-sm">Type: {type}</p>}
         <p className="text-sm">Points: {cricketer.points}</p>
         <p className="text-sm">Rank: {cricketer.rank}</p>
-        <p className="text-sm">Age: {age}</p>
+        {!minimal && <p className="text-sm">Age: {age}</p>}
       </CardContent>
     </Card>
   );
