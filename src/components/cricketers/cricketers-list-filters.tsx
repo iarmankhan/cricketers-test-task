@@ -9,25 +9,38 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui";
-import {useLocalStorageState} from "@/lib/hooks";
+import {useCricketersFilters} from "@/lib/hooks";
 
 interface CricketersListFiltersProps {
+  search: string
   onSearchChange: (search: string) => void
+
+  sortBy: SortFields | undefined
   onSortByChange: (order?: SortFields) => void
+
+  filter: string
   onFilterChange: (type: string) => void
 }
 
-export default function CricketersListFilters({}: CricketersListFiltersProps) {
-  const [search, setSearch] = useLocalStorageState<string>('search', '')
+export default function CricketersListFilters({
+                                                search,
+                                                onSearchChange,
+                                                sortBy,
+                                                onSortByChange,
+                                                filter,
+                                                onFilterChange
+                                              }: CricketersListFiltersProps) {
 
   return (
-    <div className='flex flex-row items-center'>
-      <div>
-        <Input type='search' value={search} onChange={e => setSearch(e.target.value)}/>
+    <div className='flex flex-row items-center justify-between'>
+      <div className=''>
+        <Input type='search' placeholder='Search by name...' value={search} onChange={e => onSearchChange(e.target.value)}/>
       </div>
 
-      <div>
-        <Select>
+      <div className='flex flex-row items-center gap-4'>
+        <Select value={sortBy} onValueChange={(val) => {
+          onSortByChange(val as SortFields)
+        }}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Sort By"/>
           </SelectTrigger>
@@ -41,8 +54,13 @@ export default function CricketersListFilters({}: CricketersListFiltersProps) {
           </SelectContent>
         </Select>
 
-        <Select>
-          <SelectTrigger className="w-[180px]">
+        <Select
+          value={filter}
+          onValueChange={(val) => {
+            onFilterChange(val)
+          }}
+        >
+          <SelectTrigger className="w-[180px]" >
             <SelectValue placeholder="Select Type"/>
           </SelectTrigger>
           <SelectContent>
