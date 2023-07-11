@@ -72,3 +72,15 @@ export const getCricketer = async (id: string) => {
     return null
   }
 }
+
+export const getCricketersTypes = async () => {
+  try {
+    const players = await getPlayers();
+
+    const types = players.map((player) => player.type)
+
+    return [...new Set(types)].filter(Boolean)
+  } catch (error) {
+    return []
+  }
+}
